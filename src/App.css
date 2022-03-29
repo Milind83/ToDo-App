@@ -17,6 +17,7 @@ body {
   background: linear-gradient(to bottom, #68eacc 0%, #497be8 100%);
 }
 .wrapper {
+  position: relative;
   background: #fff;
   max-width: 550px;
   width: 100%;
@@ -99,7 +100,6 @@ body {
 
 /* date-conntainer css started */
 .todo-container {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -206,4 +206,21 @@ body {
   user-select: none;
   transition: all 0.3s ease;
   opacity: 1;
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-box-shadow: 1px 2px 6px 3px rgba(0, 0, 0, 0.31);
+  box-shadow: 1px 2px 6px 3px rgba(0, 0, 0, 0.31);
+}
+.popup-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.close-icon {
+  width: 3rem;
+  height: 3rem;
 }

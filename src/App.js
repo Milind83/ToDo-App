@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Form from "./Componts/Form";
 import Todos from "./Componts/Todos";
 import { v4 as uuidv4 } from "uuid";
-import Swal from "sweetalert2";
 
 function App() {
   const [todolist, setTodoList] = useState([]);
@@ -27,29 +26,23 @@ function App() {
 
   // ........edit task continue..........
 
-  const editTodo= (id) => {
-      const editTodo = todolist.find((todolist)=>todolist.id === id);
-      setTodoList(editTodo);
+  const editTodo = (id, data) => {
+    const editTodo = todolist.map((singletodo) => {
+      if (singletodo.id === id) {
+        return { ...singletodo, name: data };
+      } else {
+        return singletodo;
+      }
+    });
+    setTodoList(editTodo);
   };
 
   //............remove Data.............
   const removeTodo = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const temptArray = todolist.filter(
-          (singleTodo) => singleTodo.id !== id
-        );
-        setTodoList(temptArray);
-      }
-    });
+    if (window.confirm("Delete the item?")) {
+      const temptArray = todolist.filter((singleTodo) => singleTodo.id !== id);
+      setTodoList(temptArray);
+    }
   };
 
   // .........Clear All............
@@ -57,13 +50,6 @@ function App() {
     setTodoList([]);
   };
 
-  useEffect(() => {
-    const todoData = JSON.parse(localStorage.getItem("Todos-list"));
-    if (todoData) {
-      setTodoList(todoData);
-      console.log(todoData);
-    }
-  }, []);
   return (
     <div className="wrapper">
       <header>Todo App</header>
