@@ -54,6 +54,7 @@ body {
   border: none;
   color: #fff;
   margin-left: 5px;
+  padding: 0px;
   font-size: 21px;
   outline: none;
   background: #8e49e8;
@@ -114,8 +115,8 @@ body {
 .date-container {
   display: flex;
   flex-direction: column;
-  width: 5rem;
-  height: 5rem;
+  width: 4rem;
+  height: 4rem;
   border: 1px solid #ececec;
   background-color: #2a2a2a;
   color: white;
@@ -125,12 +126,12 @@ body {
 }
 
 .date__month {
-  font-size: 0.5rem;
+  font-size: 0.75rem;
   font-weight: bold;
 }
 
 .date__year {
-  font-size: 0.5rem;
+  font-size: 0.75rem;
 }
 
 .date__day {

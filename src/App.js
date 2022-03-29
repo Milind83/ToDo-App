@@ -8,61 +8,31 @@ import Swal from "sweetalert2";
 function App() {
   const [todolist, setTodoList] = useState([]);
 
+  //..............Adding data.............
   const addTodo = (todoitem, date) => {
     setTodoList([
       ...todolist,
       { id: uuidv4(), name: todoitem, date, isCompleted: false },
     ]);
-    localStorage.setItem(
-      "Todos-list",
-      JSON.stringify([
-        ...todolist,
-        { id: uuidv4(), name: todoitem, date, isCompleted: false },
-      ])
-    );
   };
-  // setting task completed/not completed
+
+  // ............setting task completed/not completed............
   const toggleComplete = (id, checked) => {
     const newData = todolist.map((data) =>
       data.id === id ? { ...data, isCompleted: checked } : data
     );
     console.log(newData);
     setTodoList(newData);
-    localStorage.setItem("Todos-list", JSON.stringify(newData));
   };
 
-  // edit task continue...
-  const editTodo = (id) => {
-    console.log(id);
-    Swal.fire({
-      title: "Edit ToDo",
-      html:
-        '<input id="swal-input1" class="swal2-input" placeholder="Enter new todo name">' +
-        '<input type="date" id="swal-input2" class="swal2-input placeholder="Enter new todo name"">',
-      focusConfirm: false,
-      preConfirm: () => {
-        return [
-          document.getElementById("swal-input1").value,
-          document.getElementById("swal-input2").value,
-        ];
-      },
-    }).then((res) => {
-      console.log(res.value);
-      const newData = todolist.map((data) =>
-        data.id === id
-          ? { ...data, name: res.value[0], date: res.value[1] }
-          : data
-      );
-      console.log(newData);
-      if (res.value[0] === "" || res.value[1] === "") {
-        Swal.fire("Error!", "All fields are required", "error");
-      } else {
-        setTodoList(newData);
-        localStorage.setItem("Todos-list", JSON.stringify(newData));
-        Swal.fire("Edited!", "Your task is edited.", "success");
-      }
-    });
+  // ........edit task continue..........
+
+  const editTodo= (id) => {
+      const editTodo = todolist.find((todolist)=>todolist.id === id);
+      setTodoList(editTodo);
   };
+
+  //............remove Data.............
   const removeTodo = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -78,15 +48,13 @@ function App() {
           (singleTodo) => singleTodo.id !== id
         );
         setTodoList(temptArray);
-        localStorage.setItem("Todos-list", JSON.stringify(temptArray));
-        Swal.fire("Deleted!", "Your task has been deleted.", "success");
       }
     });
   };
 
+  // .........Clear All............
   const clearAllHandler = () => {
     setTodoList([]);
-    localStorage.clear();
   };
 
   useEffect(() => {
