@@ -3,59 +3,72 @@ import "./App.css";
 import Form from "./Componts/Form";
 import Todos from "./Componts/Todos";
 import { v4 as uuidv4 } from "uuid";
-import Swal from "sweetalert2";
 
 function App() {
   const [todolist, setTodoList] = useState([]);
 
-  const addTodo = (todoitem, date) => {
-    setTodoList([...todolist, { id: uuidv4(), name: todoitem, date }]);
-    localStorage.setItem(
-      "Todos-list",
-      JSON.stringify([...todolist, { id: uuidv4(), name: todoitem, date }])
-    );
+
+  //..............Adding data.............
+  const addTodo = (todoitem) => {
+    setTodoList([
+      ...todolist,
+      { id: uuidv4(), name: todoitem, isCompleted: false },
+    ]);
   };
-  const removeTodo = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const temptArray = todolist.filter(
-          (singleTodo) => singleTodo.id !== id
-        );
-        setTodoList(temptArray);
-        localStorage.setItem("Todos-list", JSON.stringify(temptArray));
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+
+  // ............setting task completed/not completed............
+  const toggleComplete = (id, checked) => {
+    const newData = todolist.map((data) =>
+      data.id === id ? { ...data, isCompleted: checked } : data
+    );
+    console.log(newData);
+    setTodoList(newData);
+  };
+
+  // ........edit task continue..........
+
+  const editTodo = (id, data) => {
+    const editTodo = todolist.map((singletodo) => {
+      if (singletodo.id === id) {
+        return { ...singletodo, name: data };
+      } else {
+        return singletodo;
       }
     });
+    setTodoList(editTodo);
   };
 
+  //............remove Data.............
+  const removeTodo = (id) => {
+    if (window.confirm("Delete the item?")) {
+      const temptArray = todolist.filter((singleTodo) => singleTodo.id !== id);
+      setTodoList(temptArray);
+    }
+  };
+
+  // .........Clear All............
   const clearAllHandler = () => {
     setTodoList([]);
-    localStorage.clear();
   };
 
-  useEffect(() => {
-    const todoData = JSON.parse(localStorage.getItem("Todos-list"));
-    if (todoData) {
-      setTodoList(todoData);
-      console.log(todoData);
-    }
-  }, []);
   return (
     <div className="wrapper">
       <header>Todo App</header>
       <Form addTodo={addTodo} />
-      <Todos todolist={todolist} removeTodo={removeTodo} />
+      <Todos
+        todolist={todolist}
+        removeTodo={removeTodo}
+        toggleComplete={toggleComplete}
+        editTodo={editTodo}
+      />
       <div className="footer">
         <span>
-          You have <span className="pendingTasks">{todolist.length}</span>{" "}
+          You have{" "}
+          <span className="pendingTasks">
+            {todolist.length !== 0
+              ? todolist.filter((singleData) => !singleData.isCompleted).length
+              : 0}
+          </span>{" "}
           pending tasks
         </span>
         <button onClick={clearAllHandler}>Clear All</button>

@@ -1,24 +1,15 @@
 import React, { useState } from "react";
-import Swal from "sweetalert2";
 
 function Form({ addTodo }) {
   const [todoitem, setTodoItem] = useState("");
-  const [date, setDate] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (todoitem === "" || date === "") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "All the fields are mandetory!",
-        footer: "Click  &nbsp;<strong> OK </strong>&nbsp;  to continue",
-      });
-
+    if (todoitem.trim() === "" ) {
+      alert("all fields are mendatory")
       return;
     }
-    addTodo(todoitem, date);
-    setDate("");
+    addTodo(todoitem);
     setTodoItem("");
   };
   return (
@@ -30,15 +21,6 @@ function Form({ addTodo }) {
           value={todoitem}
           onChange={(e) => setTodoItem(e.target.value)}
         />
-      </div>
-      <div className="inputField">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div className="inputField" style={{ justifyContent: "center" }}>
         <button type="submit">
           <i className="fas fa-plus"></i>
         </button>
