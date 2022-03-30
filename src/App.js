@@ -5,7 +5,7 @@ import Todos from "./Componts/Todos";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const [todolist, setTodoList] = useState([]);
+  const [todolist, setTodoList] = useState([]);   
 
   //..............Adding data.............  
   const addTodo = (todoitem) => {

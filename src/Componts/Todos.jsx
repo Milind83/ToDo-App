@@ -61,7 +61,7 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
       <Search
         todolist={todolist}
         search={search}
-        searchOnChange={searchOnChange}
+        searchOnChange={searchOnChange}  
         searchHandler={searchHandler}
         errorTxt={errorTxt}
         showAllTask={showAllTask}
