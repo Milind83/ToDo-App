@@ -224,3 +224,6 @@ body {
   width: 3rem;
   height: 3rem;
 }
+.list-title {
+  text-align: center;
+}

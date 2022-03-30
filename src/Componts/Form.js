@@ -8,7 +8,7 @@ function Form({ addTodo }) {
     if (todoitem.trim() === "" ) {
       alert("all fields are mendatory")
       return;
-    }
+    } 
     addTodo(todoitem);
     setTodoItem("");
   };
@@ -25,7 +25,7 @@ function Form({ addTodo }) {
           <i className="fas fa-plus"></i>
         </button>
       </div>
-    </form>
+    </form> 
   );
 }
 

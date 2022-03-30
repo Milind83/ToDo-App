@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import "./App.css";
 import Form from "./Componts/Form";
 import Todos from "./Componts/Todos";
@@ -7,11 +7,11 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
   const [todolist, setTodoList] = useState([]);
 
-  //..............Adding data.............
-  const addTodo = (todoitem, date) => {
+  //..............Adding data.............  
+  const addTodo = (todoitem) => {
     setTodoList([
       ...todolist,
-      { id: uuidv4(), name: todoitem, date, isCompleted: false },
+      { id: uuidv4(), name: todoitem, isCompleted: false },
     ]);
   };
 
@@ -60,13 +60,21 @@ function App() {
         toggleComplete={toggleComplete}
         editTodo={editTodo}
       />
-      <div className="footer">
-        <span>
-          You have <span className="pendingTasks">{todolist.length}</span>{" "}
-          pending tasks
-        </span>
-        <button onClick={clearAllHandler}>Clear All</button>
-      </div>
+      {todolist.length !== 0 && (
+        <div className="footer">
+          <span>
+            You have{" "}
+            <span className="pendingTasks">
+              {todolist.length !== 0
+                ? todolist.filter((singleData) => !singleData.isCompleted)
+                    .length
+                : 0}
+            </span>{" "}
+            pending tasks
+          </span>
+          <button onClick={clearAllHandler}>Clear All</button>
+        </div>
+      )}
     </div>
   );
 }
