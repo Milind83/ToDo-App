@@ -1,24 +1,27 @@
-import {  useState } from "react";
+import{ useState } from "react";
 import "./App.css";
 import Form from "./Componts/Form";
 import Todos from "./Componts/Todos";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
-  const [todolist, setTodoList] = useState([]);   
+  const [todolist, setTodoList] = useState([]);
 
-  //..............Adding data.............  
+  //..............Adding data.............
   const addTodo = (todoitem) => {
     setTodoList([
       ...todolist,
-      { id: uuidv4(), name: todoitem, isCompleted: false },
+      { id: uuidv4(), name: todoitem, time: "", isCompleted: false },
     ]);
   };
 
   // ............setting task completed/not completed............
   const toggleComplete = (id, checked) => {
+    let today = new Date();
+    let time = today.toLocaleTimeString();
+
     const newData = todolist.map((data) =>
-      data.id === id ? { ...data, isCompleted: checked } : data
+      data.id === id ? { ...data, time: time, isCompleted: checked } : data
     );
     console.log(newData);
     setTodoList(newData);
@@ -34,6 +37,7 @@ function App() {
         return singletodo;
       }
     });
+    console.log(editTodo);
     setTodoList(editTodo);
   };
 
@@ -60,21 +64,23 @@ function App() {
         toggleComplete={toggleComplete}
         editTodo={editTodo}
       />
-      {todolist.length !== 0 && (
-        <div className="footer">
-          <span>
-            You have{" "}
-            <span className="pendingTasks">
-              {todolist.length !== 0
-                ? todolist.filter((singleData) => !singleData.isCompleted)
-                    .length
-                : 0}
-            </span>{" "}
-            pending tasks
-          </span>
-          <button onClick={clearAllHandler}>Clear All</button>
-        </div>
-      )}
+      {todolist.length !== 0 &&
+        todolist.filter((singleData) => !singleData.isCompleted).length !==
+          0 && (
+          <div className="footer">
+            <span>
+              You have{" "}
+              <span className="pendingTasks">
+                {todolist.length !== 0
+                  ? todolist.filter((singleData) => !singleData.isCompleted)
+                      .length
+                  : 0}
+              </span>{" "}
+              pending tasks
+            </span>
+            <button onClick={clearAllHandler}>Clear All</button>
+          </div>
+        )}
     </div>
   );
 }

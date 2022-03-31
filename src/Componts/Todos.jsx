@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Search from "./Search";
+import SingleTodo from "./SingleTodo";
 
 function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -9,10 +10,13 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
   const [errorTxt, setErrorTxt] = useState(false);
   const [result, setResult] = useState(false);
 
-  const searchHandler = () => { 
+  // to solve id error (first element not editing)
+  const [todoid, setTodoId] = useState("");
+
+  const searchHandler = () => {
     if (search.trim() === "") {
       alert("please add term to search");
-      return; 
+      return;       
     }
     // filtering data if search txt matches
     const newData = todolist.filter((singleTodo) =>
@@ -40,15 +44,33 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
     setSearch(e.target.value);
   };
 
-  const submitHandler = (id) => {
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setResult(false);
     if (todoitem.trim() === "") {
       alert("all fields are mendatory");
       return;
     }
-    editTodo(id, todoitem);
+    console.log("submit handler", todoid);
+    editTodo(todoid, todoitem);
     setTodoItem("");
     setIsEdit(false);
+    setTodoId("");
     alert("Todo Edited");
+  };
+
+  const isEditOpen = (name, id) => {
+    setTodoId(id);
+    setTodoItem(name);
+    setIsEdit(true);
+  };
+  const isEditclose = () => {
+    setTodoId("");
+    setIsEdit(false);
+  };
+
+  const todoItemOnChange = (e) => {
+    setTodoItem(e.target.value);
   };
 
   // adding todolist prop data to mytodolist if todolist changes (added data or edited data)
@@ -61,7 +83,7 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
       <Search
         todolist={todolist}
         search={search}
-        searchOnChange={searchOnChange}  
+        searchOnChange={searchOnChange}
         searchHandler={searchHandler}
         errorTxt={errorTxt}
         showAllTask={showAllTask}
@@ -70,86 +92,20 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
       {/* checking errorTxt is not true and maping mytodolist*/}
       <ul className="todoList">
         {!errorTxt &&
-          mytodolist.map((data) => {
-            return (
-              <li key={data.id} className="todo-container">
-                {/* .....Edit.... */}
-                <div
-                  className={`todo-name ${
-                    data.isCompleted ? "strike-text" : ""
-                  } `} // if  is completedtrue then striketesxt added
-                >
-                  {data.name}
-                </div>
-
-                {/* ....complited.... */}
-                <div className="icons">
-                  <span className="icon">
-                    <div>
-                      <input
-                        type="checkbox"
-                        className="custom-checkbox"
-                        checked={data.isCompleted}
-                        onChange={() => {
-                          toggleComplete(data.id, !data.isCompleted); //  true value change in false and reverse
-                        }}
-                      />
-                    </div>
-
-                    {/* ....Edit.... */}
-                  </span>
-                  <span
-                    className="icon"
-                    onClick={() => {
-                      setTodoItem(data.name);
-                      setIsEdit(true);
-                    }}
-                  >
-                    <i class="fas fa-edit fa-lg"></i>
-                  </span>
-
-                  {/* ....Delete.... */}
-                  <span className="icon" onClick={() => removeTodo(data.id)}>
-                    <i className="fas fa-trash fa-lg"></i>
-                  </span>
-                </div>
-
-                {/* checking isEdit is true this will show is true */}
-                {isEdit && (
-                  <div className="wrapper popup">
-                    <div className="popup-box">
-                      <h3>Edit Todo Item</h3>
-                      <span
-                        className="icon close-icon"
-                        onClick={() => setIsEdit(false)}
-                      >
-                        <i class="fas fa-times"></i>
-                      </span>
-                    </div>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        setResult(false);
-                        submitHandler(data.id);
-                      }}
-                    >
-                      <div className="inputField">
-                        <input
-                          type="text"
-                          placeholder="Add your new todo"
-                          value={todoitem}
-                          onChange={(e) => setTodoItem(e.target.value)}
-                        />
-                        <button type="submit">
-                          <i className="fas fa-plus"></i>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                )}
-              </li>
-            );
-          })}
+          mytodolist.map((data) => (
+            <SingleTodo
+              key={data.id}
+              data={data}
+              toggleComplete={toggleComplete}
+              isEditOpen={isEditOpen}
+              removeTodo={removeTodo}
+              isEdit={isEdit}
+              isEditclose={isEditclose}
+              submitHandler={submitHandler}
+              todoitem={todoitem}
+              todoItemOnChange={todoItemOnChange}
+            />
+          ))}
       </ul>
     </>
   );

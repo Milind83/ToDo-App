@@ -8,7 +8,7 @@ function Form({ addTodo }) {
     if (todoitem.trim() === "" ) {
       alert("all fields are mendatory")
       return;
-    } 
+    }
     addTodo(todoitem);
     setTodoItem("");
   };
@@ -17,6 +17,7 @@ function Form({ addTodo }) {
       <div className="inputField">
         <input
           type="text"
+          autoFocus
           placeholder="Add your new todo"
           value={todoitem}
           onChange={(e) => setTodoItem(e.target.value)}
@@ -25,7 +26,7 @@ function Form({ addTodo }) {
           <i className="fas fa-plus"></i>
         </button>
       </div>
-    </form> 
+    </form>
   );
 }
 

@@ -6,9 +6,9 @@ const Search = ({
   searchOnChange,
   searchHandler,
   errorTxt,
-  showAllTask, 
+  showAllTask,
   result,
-}) => { 
+}) => {
   return (
     <>
       {/* checking todolist is empty id empty this will not show */}
