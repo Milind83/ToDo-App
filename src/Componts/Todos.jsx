@@ -44,7 +44,7 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
     setSearch(e.target.value);
   };
 
-  const submitHandler = (e) => {
+  function submitHandler(e) {
     e.preventDefault();
     setResult(false);
     if (todoitem.trim() === "") {
@@ -57,7 +57,7 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
     setIsEdit(false);
     setTodoId("");
     alert("Todo Edited");
-  };
+  }
 
   const isEditOpen = (name, id) => {
     setTodoId(id);
@@ -69,7 +69,7 @@ function Todos({ todolist, removeTodo, editTodo, toggleComplete }) {
     setIsEdit(false);
   };
 
-  const todoItemOnChange = (e) => {
+  const  todoItemOnChange = (e) => {
     setTodoItem(e.target.value);
   };
 

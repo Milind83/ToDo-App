@@ -52,7 +52,7 @@ function App() {
   // .........Clear All............
   const clearAllHandler = () => {
     setTodoList([]);
-  };
+  };  
 
   return (
     <div className="wrapper">

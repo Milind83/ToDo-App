@@ -40,7 +40,7 @@ const Search = ({
         <div className="footer">
           <span>search results for {search}</span>
           <button onClick={showAllTask}>show all task</button>
-        </div>
+        </div>    
       )}
     </>
   );
